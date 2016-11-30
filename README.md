@@ -7,7 +7,7 @@ Angular2 rest template for all CRUD operations.
 ## Installation
 
 ```sh
-	Download and include the api.service.ts file into your service folder of your application.
+	Download and include the api.service.ts file into your service folder of your application. Keep it a common service folder. we want to inject it all the services of our application.
 ```
 
 ## Usage
@@ -16,7 +16,7 @@ Angular2 rest template for all CRUD operations.
 
 import { Injectable } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
-import { ApiService } from '../../../../services/api.service'; //include the downloaded service
+import { ApiService } from '../../../../services/api.service'; //include the downloaded service, modify the path as per your application
 
 import 'rxjs/add/operator/toPromise';
 
