@@ -1,77 +1,59 @@
 # ng2-rest-api
-ng2-rest-api HTTP client to consume RESTful services. Built on Angular2/http with TypeScript.  
+ng2-rest-api HTTP client to consume RESTful services. Built on Angular2/http with TypeScript. A rest api template for all api consumption.
 **Note:** this solutions is not included in npm, so download and include it in your service folder.
 
 ## Installation
 
 ```sh
-Download and include the api.service.ts file into your service folder of ypur application.
+Download and include the api.service.ts file into your service folder of your application.
 ```
 
 ## Usage
 
 ```ts
 
-import {Request, Response} from 'angular2/http';
-import {RESTClient, GET, PUT, POST, DELETE, BaseUrl, Headers, DefaultHeaders, Path, Body, Query} from 'angular2-rest';
+		import { Injectable } from '@angular/core';
+		import { URLSearchParams } from '@angular/http';
+		import { ApiService } from '../../../../services/api.service'; //include the downloaded service
 
-import {Todo} from './models/Todo';
-import {SessionFactory} from './sessionFactory';
-
-@Injectable()
-@BaseUrl("http://localhost:3000/api/")
-@DefaultHeaders({
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-})
-export class TodoRESTClient extends RESTClient {
-
-    protected requestInterceptor(req: Request) {
-        if (SessionFactory.getInstance().isAuthenticated) {
-            req.headers.append('jwt', SessionFactory.getInstance().credentials.jwt);
-        }
-    }
-    
-    protected requestInterceptor(req: Response) {
-        // do sg with responses
-    }
-
-    @GET("todo/")
-    public getTodos( @Query("sort") sort?: string): Observable { return null; };
-
-    @GET("todo/{id}")
-    public getTodoById( @Path("id") id: string): Observable { return null; };
-
-    @POST("todo")
-    public postTodo( @Body todo: Todo): Observable { return null; };
-
-    @PUT("todo/{id}")
-    public putTodoById( @Path("id") id: string, @Body todo: Todo): Observable { return null; };
-
-    @DELETE("todo/{id}")
-    public deleteTodoById( @Path("id") id: string): Observable { return null; };
-
-}
-```
-
-### Using it in your component
+		import 'rxjs/add/operator/toPromise';
 
 
-``` ts
-@Component({
-  selector: 'to-do',
-  viewProviders: [TodoRESTClient],
-})
-@View({
-  templateUrl: 'components/to-do-template.html',
-})
-export class ToDoCmp {
+		@Injectable()
+		export class ChartService {
 
-  constructor(todoRESTClient: TodoRESTClient) {
-  }
-  
-  //Use todoRESTClient   
-}
+			constructor(private apiService: ApiService) { }
+
+			protected module: string = "chart/";
+
+			//to get the chart data
+			getChartData(endPoint:string,parameter?:any): Promise<any> {
+				let params: URLSearchParams = new URLSearchParams();
+				return this.apiService.get(this.module + endPoint,params)
+					.then(res => res)
+					.catch(err => err);
+			}
+
+		}
+		```
+
+		### Using it in your component
+		
+		``` ts
+		@Component({
+		  selector: 'to-do',
+		  viewProviders: [TodoRESTClient],
+		})
+		@View({
+		  templateUrl: 'components/to-do-template.html',
+		})
+		export class ToDoCmp {
+
+		  constructor(todoRESTClient: TodoRESTClient) {
+		  }
+		  
+		  //Use todoRESTClient   
+		}
 ```
 ## API Docs
 
