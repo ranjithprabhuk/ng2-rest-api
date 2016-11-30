@@ -40,45 +40,55 @@ Download and include the api.service.ts file into your service folder of your ap
 		### Using it in your component
 		
 		``` ts
-		@Component({
-		  selector: 'to-do',
-		  viewProviders: [TodoRESTClient],
-		})
-		@View({
-		  templateUrl: 'components/to-do-template.html',
-		})
-		export class ToDoCmp {
+		import { Component } from '@angular/core';
+		import { ChartService } from './chart.service'; //call the chart service from here
 
-		  constructor(todoRESTClient: TodoRESTClient) {
+		@Component({
+		  selector: 'chart',
+		  templateUrl: './view/chart.html',
+		  providers: [ChartService]  //include the service in the providers
+		})
+
+		export class ChartComponent {
+
+		  constructor(private chartService: ChartService) { }
+
+		  //get the line chart data from the api
+		  public _getLineChartData(): void {
+			//call the chart service to get the data
+			this.chartService.getChartData("chart/lineChart.json").then(res => {
+			if(res && res.status=='SUCCESS'){
+			  this.lineChartData = res.lineChartData;
+			  this.lineChartLabels = res.lineChartLabels;
+			  }
+			}).catch(err => err);
 		  }
-		  
-		  //Use todoRESTClient   
+
+
+
+		  //on page load
+		  ngOnInit() {
+
+			//call the methods to get the data from the api
+			this._getLineChartData();
+		  }
 		}
 ```
 ## API Docs
 
 ### RESTClient
 #### Methods:
-- `getBaseUrl(): string`: returns the base url of RESTClient
-- `getDefaultHeaders(): Object`: returns the default headers of RESTClient in a key-value pair
+- `get(): --> for all get operrations
+- `create(): --> for all post operations
+- `update(): --> for all put operrations
+- `delete(): --> for all delete operations
 
-### Class decorators:
-- `@BaseUrl(url: string)`
-- `@DefaultHeaders(headers: Object)`
 
-### Method decorators:
-- `@GET(url: String)`
-- `@POST(url: String)`
-- `@PUT(url: String)`
-- `@DELETE(url: String)`
-- `@Headers(headers: Object)`
+## About Author
+* [Author URL] (http://ranjithprabhu.in)
 
-### Parameter decorators:
-- `@Path(key: string)`
-- `@Query(key: string)`
-- `@Header(key: string)`
-- `@Body`
+I am passionate in playing with pixels, creating attractive designs which interact well with the user and love developing web apps. Have a good background in web design and development. Also having wonderful working experience with various interesting projects and participated in the development of the products to provide end to end solutions.
 
-# License
 
-MIT
+## License
+Released under the MIT license.
