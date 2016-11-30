@@ -12,67 +12,67 @@ Download and include the api.service.ts file into your service folder of your ap
 
 ```ts
 
-		import { Injectable } from '@angular/core';
-		import { URLSearchParams } from '@angular/http';
-		import { ApiService } from '../../../../services/api.service'; //include the downloaded service
+import { Injectable } from '@angular/core';
+import { URLSearchParams } from '@angular/http';
+import { ApiService } from '../../../../services/api.service'; //include the downloaded service
 
-		import 'rxjs/add/operator/toPromise';
-
-
-		@Injectable()
-		export class ChartService {
-
-			constructor(private apiService: ApiService) { }
-
-			protected module: string = "chart/";
-
-			//to get the chart data
-			getChartData(endPoint:string,parameter?:any): Promise<any> {
-				let params: URLSearchParams = new URLSearchParams();
-				return this.apiService.get(this.module + endPoint,params)
-					.then(res => res)
-					.catch(err => err);
-			}
-
-		}
-		```
-
-		### Using it in your component
-		
-		``` ts
-		import { Component } from '@angular/core';
-		import { ChartService } from './chart.service'; //call the chart service from here
-
-		@Component({
-		  selector: 'chart',
-		  templateUrl: './view/chart.html',
-		  providers: [ChartService]  //include the service in the providers
-		})
-
-		export class ChartComponent {
-
-		  constructor(private chartService: ChartService) { }
-
-		  //get the line chart data from the api
-		  public _getLineChartData(): void {
-			//call the chart service to get the data
-			this.chartService.getChartData("chart/lineChart.json").then(res => {
-			if(res && res.status=='SUCCESS'){
-			  this.lineChartData = res.lineChartData;
-			  this.lineChartLabels = res.lineChartLabels;
-			  }
-			}).catch(err => err);
-		  }
+import 'rxjs/add/operator/toPromise';
 
 
+@Injectable()
+export class ChartService {
 
-		  //on page load
-		  ngOnInit() {
+	constructor(private apiService: ApiService) { }
 
-			//call the methods to get the data from the api
-			this._getLineChartData();
-		  }
-		}
+	protected module: string = "chart/";
+
+	//to get the chart data
+	getChartData(endPoint:string,parameter?:any): Promise<any> {
+		let params: URLSearchParams = new URLSearchParams();
+		return this.apiService.get(this.module + endPoint,params)
+			.then(res => res)
+			.catch(err => err);
+	}
+
+}
+```
+
+### Using it in your component
+
+``` ts
+import { Component } from '@angular/core';
+import { ChartService } from './chart.service'; //call the chart service from here
+
+@Component({
+  selector: 'chart',
+  templateUrl: './view/chart.html',
+  providers: [ChartService]  //include the service in the providers
+})
+
+export class ChartComponent {
+
+  constructor(private chartService: ChartService) { }
+
+  //get the line chart data from the api
+  public _getLineChartData(): void {
+	//call the chart service to get the data
+	this.chartService.getChartData("chart/lineChart.json").then(res => {
+	if(res && res.status=='SUCCESS'){
+	  this.lineChartData = res.lineChartData;
+	  this.lineChartLabels = res.lineChartLabels;
+	  }
+	}).catch(err => err);
+  }
+
+
+
+  //on page load
+  ngOnInit() {
+
+	//call the methods to get the data from the api
+	this._getLineChartData();
+  }
+}
 ```
 ## API Docs
 
