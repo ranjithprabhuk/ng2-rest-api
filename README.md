@@ -1,11 +1,13 @@
 # ng2-rest-api
 ng2-rest-api HTTP client to consume RESTful services. Built on Angular2/http with TypeScript. A rest api template for all api consumption.
+Angular2 rest template for all CRUD operations.
+
 **Note:** this solutions is not included in npm, so download and include it in your service folder.
 
 ## Installation
 
 ```sh
-Download and include the api.service.ts file into your service folder of your application.
+	Download and include the api.service.ts file into your service folder of your application.
 ```
 
 ## Usage
